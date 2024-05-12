@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth_service.dart';
@@ -102,5 +103,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
            ),
           ))),
     );
+  }
+}
+class Topic {
+  String name;
+  String description;
+
+  Topic(this.name, this.description);
+
+  Future<void> save() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    await firestore.collection('topics').add({
+      'name': name,
+      'description': description,
+    });
   }
 }

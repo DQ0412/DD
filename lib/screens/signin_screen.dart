@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:app/screens/admin/home_admin_screen.dart';
 import 'package:app/screens/change_password_screen.dart';
 import 'package:app/screens/signup_screen.dart';
 import 'package:app/utils/color_utils.dart';
@@ -19,22 +20,29 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailTextController = TextEditingController();
 
   Future<void> _signIn(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-        email: _emailTextController.text,
-        password: _passwordTextController.text,
-      )
-          .then((value) {
+  try {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+      email: _emailTextController.text,
+      password: _passwordTextController.text,
+    )
+        .then((value) {
+      if (_emailTextController.text == 'diemquynhqqq@gmail.com') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeAdminScreen()),
+        );
+      } else {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-      });
-    } on FirebaseAuthException catch (e) {
-      _showErrorDialog(context, e.code);
-    }
+      }
+    });
+  } on FirebaseAuthException catch (e) {
+    _showErrorDialog(context, e.code);
   }
+}
 
   void _showErrorDialog(BuildContext context, String errorCode) {
     String errorMessage;
